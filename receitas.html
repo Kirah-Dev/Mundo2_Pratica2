@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Catálogo de Receitas</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css">
+    <style>
+        .pnlCatalogo {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center; /* Centraliza os cards horizontalmente */
+        }
+        .card {
+            margin: 10px; /* Adiciona margem entre os cards */
+            flex: 1 0 300px; /* Define a largura mínima dos cards */
+        }
+        @media (max-width: 768px) { /* Responsividade para telas menores */
+            .card {
+                flex: 1 0 100%; /* Ajusta a largura para 100% */
+            }
+        }
+    </style>
+</head>
+<body onload="preencheCatalogo()">
+    <div class="container-fluid">
+        <h1 class="text-center">Catálogo de Receitas</h1>
+        <div class="row pnlCatalogo bg-warning" id="pnlCatalogo">
+        </div>
+    </div>
+
+    <script>
+        // Vetor de receitas em JSON
+        const receitas = [
+            {
+                "titulo": "Fraldinha da AirFryer",
+                "imagem": "fraldinha.png",
+                "preparo": "Tempere a fraldinha com o sal e pimenta-do-reino a gosto. Misture bem as 2 colheres de manteiga (ou margarina) com o alho amassado até formar uma pasta. Passe a pasta na carne, espalhando bem. Leve a carne para a airfryer, que deverá estar preaquecida a 200°C por 5 minutos, com a gordura virada para cima. Deixe assar por 15 minutos. Passado o tempo, vire a carne e deixe assar por mais 15 minutos. Sirva ainda quente.",
+                "ingredientes": [
+                    "1kg de fraldinha",
+                    "2 colheres (sopa) de manteiga (ou margarina)",       
+                    "5 dentes de alho amassado",        
+                    "Sal e pimenta-do-reino a gosto"                
+                ]
+            },
+
+            {
+                "titulo": "Bolo de Chocolate",
+                "imagem": "bolo_choc.png",
+                "preparo": "Bata no liquidificador os ovos, o leite, o óleo, o chocolate e o açúcar. Coloque em um bowl e acrescente a farinha e o fermento. Misture delicadamente. Coloque em uma forma untada e leve para assar em forno preaquecido a 180°C por 30 min.",
+                "ingredientes": [
+                    "1 xicara (chá) de chocolate em pó",
+                    "1 xicara (chá) de açúcar",
+                    "2 xícaras (chá) de Farinha de Trigo",
+                    "1 xicara (chá) de óleo",
+                    "1 xicara (chá) de leite",
+                    "2 ovos",
+                    "1 colher (sopa) de fermento em pó"
+                    
+                ]
+            },
+            {
+                "titulo": "Bolo de Chocolate",
+                "imagem": "mousse_marac.png",
+                "preparo": "Em um liquidificador, bata o creme de leite, o leite condensado e o suco concentrado de maracujá. Em uma tigela, despeje a mistura e leve à geladeira por, no mínimo, 4 horas.",
+                "ingredientes": [
+                    "1 lata de leite condensado",
+                    "1 lata de creme de leite sem soro",
+                    "1 lata de suco de maracujá (medida pela lata de leite condensado)"                   
+                    
+                ]
+            },
+            // Adicione mais receitas aqui...
+        ];
+
+
+        // Função para obter a lista de ingredientes formatada
+        function getListaIngredientes(receita) {
+            let listaIngredientes = "<ul>"; // Iniciando a lista com a tag ul
+            listaIngredientes += receita.ingredientes.map(ingrediente => `<li>${ingrediente}</li>`).reduce((acc, item) => acc + item, "");
+            listaIngredientes += "</ul>"; // Finalizando a lista com a tag de fechamento </ul>
+            return listaIngredientes;
+        }
+
+        // Função para gerar o card da receita
+        function getCard(receita) {
+            return `
+                <div class="card" style="width: 250px;"> 
+                    <img src="${receita.imagem}" class="card-img-top" alt="${receita.titulo}">
+                    <div class="card-body">
+                        <h5 class="card-title">${receita.titulo}</h5>
+                        <div class="card-text">
+                            ${getListaIngredientes(receita)}
+                            <hr>
+                            ${receita.preparo}
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+
+
+        // Função para preencher o catálogo de receitas
+        function preencheCatalogo() {
+            const pnlCatalogo = document.getElementById('pnlCatalogo'); // Capturando o elemento pnlCatalogo
+            const cardsHTML = receitas.map(getCard).reduce((acc, card) => acc + card, ""); // Gerando o HTML dos cards
+            pnlCatalogo.innerHTML = cardsHTML; // Atualizando o conteúdo de pnlCatalogo
+        }
+
+    </script>
+</body>
+</html>

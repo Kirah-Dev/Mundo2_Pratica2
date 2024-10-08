@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ordenando Valores</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+</head>
+<body>
+    <div class="container mt-5">
+        <div class="row">
+            <div class="col-md-6">
+                <h2 class="mb-4">Ordenando Valores</h2>
+                <div class="form-group">
+                    <label for="valor1">Valor</label>
+                    <input type="number" class="form-control" id="valor1">
+                </div>
+                <button class="btn btn-primary" id="adicionar1">Adicionar</button>
+                <div class="form-group mt-3">
+                    <label for="algoritmo1">Algoritmo</label>
+                    <select class="form-control" id="algoritmo1">
+                        <option value="bubble_sort" selected>Bubble Sort</option>
+                        <option value="selection_sort">Selection Sort</option>
+                        <option value="quick_sort">Quick Sort</option>
+                    </select>
+                </div>
+                <button class="btn btn-success" id="ordenar1">Ordenar</button>
+                <button class="btn btn-warning" id="misturar1">Misturar</button>
+                <ul class="list-group mt-3" id="valores1"></ul>
+            </div>
+            <div class="col-md-6">
+                <h2 class="mb-4">Ordenando Valores</h2>
+                <div class="form-group">
+                    <label for="valor2">Valor</label>
+                    <input type="number" class="form-control" id="valor2">
+                </div>
+                <button class="btn btn-primary" id="adicionar2">Adicionar</button>
+                <div class="form-group mt-3">
+                    <label for="algoritmo2">Algoritmo</label>
+                    <select class="form-control" id="algoritmo2">
+                        <option value="bubble_sort" selected>Bubble Sort</option>
+                        <option value="selection_sort">Selection Sort</option>
+                        <option value="quick_sort">Quick Sort</option>
+                    </select>
+                </div>
+                <button class="btn btn-success" id="ordenar2">Ordenar</button>
+                <button class="btn btn-warning" id="misturar2">Misturar</button>
+                <ul class="list-group mt-3" id="valores2"></ul>
+            </div>
+        </div>
+    </div>
+
+    <script src="ordenando.js"></script>
+    <script>
+        // Adiciona eventos para a coluna 1
+        const adicionarButton1 = document.getElementById("adicionar1");
+        adicionarButton1.addEventListener("click", add.bind(null, "valores1"));
+
+        const ordenarButton1 = document.getElementById("ordenar1");
+        ordenarButton1.addEventListener("click", ordenar.bind(null, "valores1"));
+
+        const misturarButton1 = document.getElementById("misturar1");
+        misturarButton1.addEventListener("click", misturar.bind(null, "valores1"));
+
+        // Adiciona eventos para a coluna 2
+        const adicionarButton2 = document.getElementById("adicionar2");
+        adicionarButton2.addEventListener("click", add.bind(null, "valores2"));
+
+        const ordenarButton2 = document.getElementById("ordenar2");
+        ordenarButton2.addEventListener("click", ordenar.bind(null, "valores2"));
+
+        const misturarButton2 = document.getElementById("misturar2");
+        misturarButton2.addEventListener("click", misturar.bind(null, "valores2"));
+
+        // Funções que utilizam o ID da lista como parâmetro
+        function add(idLista) {
+            var campoEntrada = document.getElementById(`valor${idLista.slice(-1)}`);
+            var lista = document.getElementById(idLista);
+            var node = document.createElement("li");
+            var textnode = document.createTextNode(campoEntrada.value);
+            node.appendChild(textnode);
+            lista.appendChild(node);
+            campoEntrada.value = '';
+        }
+
+        function ordenar(idLista) {
+            var lista = document.getElementById(idLista);
+            var algoritmoSelect = document.getElementById(`algoritmo${idLista.slice(-1)}`);
+            var vetor = Array.from(lista.children).map(item => parseInt(item.innerHTML));
+            var algoritmo = algoritmoSelect.options[algoritmoSelect.selectedIndex].value;
+            if (algoritmo === "bubble_sort") {
+                bubble_sort(vetor);
+            } else if (algoritmo === "selection_sort") {
+                selection_sort(vetor);
+            } else if (algoritmo === "quick_sort") {
+                quick_sort(vetor, 0, vetor.length - 1);
+            }
+            var novosItens = vetor.map(valor => `<li>${valor}</li>`);
+            lista.innerHTML = novosItens.reduce((acumulador, item) => acumulador + item, '');
+        }
+
+        function misturar(idLista) {
+            var lista = document.getElementById(idLista);
+            var vetor = Array.from(lista.children).map(item => parseInt(item.innerHTML));
+            shuffle(vetor, vetor.length);
+            var novosItens = vetor.map(valor => `<li>${valor}</li>`);
+            lista.innerHTML = novosItens.reduce((acumulador, item) => acumulador + item, '');
+        }
+    </script>
+</body>
+</html>
